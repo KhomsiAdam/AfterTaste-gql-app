@@ -1,0 +1,7 @@
+fragment user on User {
+  _id
+  firstname
+  lastname
+  email
+  fidelity
+}

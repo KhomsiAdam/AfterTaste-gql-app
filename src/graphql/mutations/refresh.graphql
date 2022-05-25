@@ -1,0 +1,12 @@
+mutation Refresh {
+  refresh {
+    ... on Refresh {
+      token
+      role
+      message
+    }
+    ... on AuthError {
+      message
+    }
+  }
+}

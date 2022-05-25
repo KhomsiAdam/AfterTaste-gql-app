@@ -1,0 +1,17 @@
+query GetAllMenus {
+  getAllMenus {
+    ... on MenuNotFound {
+      message
+    }
+    ... on Menus {
+      entities {
+        _id
+        name
+        createdAt
+        products {
+          ...product
+        }
+      }
+    }
+  }
+}

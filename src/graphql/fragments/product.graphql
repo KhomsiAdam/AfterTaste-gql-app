@@ -1,0 +1,9 @@
+fragment product on Product {
+  _id
+  name
+  category
+  description
+  images
+  price
+  createdAt
+}

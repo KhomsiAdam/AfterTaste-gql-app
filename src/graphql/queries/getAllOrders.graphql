@@ -1,0 +1,27 @@
+query GetAllOrders {
+  getAllOrders {
+    ... on Orders {
+      entities {
+        _id
+        user {
+          ...user
+        }
+        products {
+          ...product
+        }
+        productsQuantity
+        menus {
+          _id
+          name
+          products {
+            ...product
+          }
+          createdAt
+        }
+        menusQuantity
+        status
+        createdAt
+      }
+    }
+  }
+}

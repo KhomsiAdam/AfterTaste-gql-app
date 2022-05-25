@@ -1,0 +1,12 @@
+query GetAllProducts {
+  getAllProducts {
+    ... on ProductNotFound {
+      message
+    }
+    ... on Products {
+      entities {
+        ...product
+      }
+    }
+  }
+}
