@@ -9,6 +9,7 @@ import DetailsScreen from './src/screens/DetailsScreen';
 import OnBoardScreen from './src/screens/OnBoardScreen';
 import { apolloClient } from './src/graphql/apolloClient';
 import { ApolloProvider } from '@apollo/client';
+import { CartProvider } from './src/context/CartContext';
 
 const Stack = createStackNavigator();
 
@@ -16,14 +17,16 @@ const App = () => {
   const client = apolloClient('');
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
-        <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="BoardScreen" component={OnBoardScreen} />
-          <Stack.Screen name="Home" component={BottomNavigator} />
-          <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <CartProvider>
+        <NavigationContainer>
+          <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="BoardScreen" component={OnBoardScreen} />
+            <Stack.Screen name="Home" component={BottomNavigator} />
+            <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </CartProvider>
     </ApolloProvider>
   );
 };

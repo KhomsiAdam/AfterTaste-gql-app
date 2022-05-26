@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -16,12 +16,15 @@ import {
 } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS, CATEGORIES } from '../constants';
+import CartContext from '../context/CartContext';
 import { Product, useGetAllProductsQuery } from '../graphql/generated/graphql';
 const { width } = Dimensions.get('screen');
 const cardWidth = width / 2 - 20;
 
 const HomeScreen = ({ navigation }: any) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
+  const { handleAddToCart } = useContext(CartContext);
+
   const { data, loading } = useGetAllProductsQuery();
 
   const ListCATEGORIES = () => {
@@ -55,7 +58,7 @@ const HomeScreen = ({ navigation }: any) => {
                   fontWeight: 'bold',
                   marginLeft: 10,
                   color:
-                    selectedCategoryIndex == index
+                    selectedCategoryIndex === index
                       ? COLORS.white
                       : COLORS.primary,
                 }}>
@@ -107,7 +110,12 @@ const HomeScreen = ({ navigation }: any) => {
               ${food.price}
             </Text>
             <View style={styles.addToCartBtn}>
-              <Icon name="add" size={20} color={COLORS.white} />
+              <Icon
+                name="add"
+                size={20}
+                color={COLORS.white}
+                onPress={() => handleAddToCart(food)}
+              />
             </View>
           </View>
         </View>

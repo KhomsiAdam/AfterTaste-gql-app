@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Image } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { COLORS, FOODS } from '../constants';
+import { COLORS } from '../constants';
 import { PrimaryButton } from '../components/Button';
+import CartContext, { CartItemType } from '../context/CartContext';
 
 const CartScreen = ({ navigation }: any) => {
+  const { cartItems, handleAddToCart, handleRemoveFromCart } =
+    useContext(CartContext);
+
+  const orderItems = () => {
+    console.log(cartItems);
+  };
+
+  const calculateTotal = (items: CartItemType[]) => {
+    return items.reduce(
+      (ack: number, item) => ack + item.amount * item.price,
+      0,
+    );
+  };
+
   const CartCard = ({ item }: any) => {
     return (
       <View style={style.cartCard}>
-        <Image source={item.image} style={{ height: 80, width: 80 }} />
+        <Image
+          source={{
+            uri: item.images[0],
+          }}
+          style={{ height: 80, width: 80 }}
+        />
         <View
           style={{
             height: 100,
@@ -32,11 +52,21 @@ const CartScreen = ({ navigation }: any) => {
         <View style={{ marginRight: 20, alignItems: 'center' }}>
           <Text
             style={{ fontWeight: 'bold', color: COLORS.primary, fontSize: 18 }}>
-            3
+            {item.amount}
           </Text>
           <View style={style.actionBtn}>
-            <Icon name="remove" size={25} color={COLORS.white} />
-            <Icon name="add" size={25} color={COLORS.white} />
+            <Icon
+              name="remove"
+              size={25}
+              color={COLORS.white}
+              onPress={() => handleRemoveFromCart(item._id)}
+            />
+            <Icon
+              name="add"
+              size={25}
+              color={COLORS.white}
+              onPress={() => handleAddToCart(item)}
+            />
           </View>
         </View>
       </View>
@@ -51,7 +81,7 @@ const CartScreen = ({ navigation }: any) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 80 }}
-        data={FOODS}
+        data={cartItems}
         renderItem={({ item }) => <CartCard item={item} />}
         ListFooterComponentStyle={{ paddingHorizontal: 20, marginTop: 20 }}
         ListFooterComponent={() => (
@@ -76,11 +106,11 @@ const CartScreen = ({ navigation }: any) => {
                   color: COLORS.primary,
                   fontWeight: 'bold',
                 }}>
-                $50
+                ${calculateTotal(cartItems).toFixed(2)}
               </Text>
             </View>
             <View style={{ marginHorizontal: 30 }}>
-              <PrimaryButton title="CHECKOUT" />
+              <PrimaryButton title="ORDER" onPress={orderItems} />
             </View>
           </View>
         )}

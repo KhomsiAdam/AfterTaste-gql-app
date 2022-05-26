@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../constants';
@@ -7,10 +7,13 @@ import { View, Image } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
 import OnBoardScreen from '../screens/OnBoardScreen';
+import CartContext from '../context/CartContext';
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigator = () => {
+  const { getTotalItems, cartItems } = useContext(CartContext);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -88,6 +91,8 @@ const BottomNavigator = () => {
           tabBarIcon: ({ color }) => (
             <Icon name="shopping-cart" color={color} size={28} />
           ),
+          tabBarBadge: getTotalItems(cartItems),
+          tabBarBadgeStyle: { backgroundColor: COLORS.primary },
         }}
       />
     </Tab.Navigator>

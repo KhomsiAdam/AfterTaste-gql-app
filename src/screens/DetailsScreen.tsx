@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../constants';
 import { SecondaryButton } from '../components/Button';
+import CartContext from '../context/CartContext';
 
 const DetailsScreen = ({ navigation, route }: any) => {
+  const { handleAddToCart } = useContext(CartContext);
   const item = route.params;
 
   return (
@@ -48,7 +50,10 @@ const DetailsScreen = ({ navigation, route }: any) => {
           </View>
           <Text style={style.detailsText}>{item.description}</Text>
           <View style={{ marginTop: 40, marginBottom: 40 }}>
-            <SecondaryButton title="Add To Cart" />
+            <SecondaryButton
+              title="Add To Cart"
+              onPress={() => handleAddToCart(item)}
+            />
           </View>
         </View>
       </ScrollView>
@@ -66,7 +71,7 @@ const style = StyleSheet.create({
   details: {
     paddingHorizontal: 20,
     paddingTop: 40,
-    paddingBottom: 60,
+    paddingBottom: 160,
     backgroundColor: COLORS.primary,
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
